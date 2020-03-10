@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 from setuptools import setup
 
 dependencies = [
@@ -41,7 +40,8 @@ setup(
         "src.util",
     ],
     keywords="chia blockchain node",
-    install_requires=dependencies + dev_dependencies,
+    install_requires=dependencies,
+    dev_requires=dev_dependencies,
     setup_requires=["setuptools_scm"],
     extras_require={
         'uvloop':  ["uvloop"],
