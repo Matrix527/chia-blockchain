@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 dependencies = [
     "aiter",            # Used for async generator tools
@@ -10,6 +10,7 @@ dependencies = [
     "aiohttp",          # HTTP server for full node rpc
     "colorlog"          # Adds color to logs
 ]
+
 dev_dependencies = [
     "pytest",
     "flake8",
@@ -20,6 +21,8 @@ dev_dependencies = [
     "pytest-asyncio"
 ]
 
+packages = ["lib.chiavdf.inkfish"] + find_packages(exclude=["lib", "lib.*"])
+
 setup(
     name="chiablockchain",
     author="Mariano Sorgente",
@@ -27,24 +30,13 @@ setup(
     description="Chia proof of space plotting, proving, and verifying (wraps C++)",
     license="Apache License",
     python_requires=">=3.7, <4",
-    packages=[
-        "definitions",
-        "lib.chiavdf.inkfish",
-        "scripts",
-        "src",
-        "src.consensus",
-        "src.protocols",
-        "src.rpc",
-        "src.server",
-        "src.types",
-        "src.util",
-    ],
+    packages=packages,
     keywords="chia blockchain node",
     install_requires=dependencies,
     dev_requires=dev_dependencies,
     setup_requires=["setuptools_scm"],
     extras_require={
-        'uvloop':  ["uvloop"],
+        'uvloop': ["uvloop"],
     },
     use_scm_version={"fallback_version": "unknown-no-.git-directory"},
     long_description=open("README.md").read(),

@@ -14,6 +14,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+      with:
+        # we need fetch-depth: 0 to ensure we get paths to tags for auto-versioning
+        fetch-depth: 0
     - name: Setup Python environment
       uses: actions/setup-python@v1.1.1
       with:
