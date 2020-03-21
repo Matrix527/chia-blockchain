@@ -1135,6 +1135,8 @@ uint64 repeated_square_fast_single_thread(square_state_type &square_state, form&
 //returns number of iterations performed
 //if this returns ~0, the discriminant was invalid and the inputs are unchanged
 uint64 repeated_square_fast(square_state_type &square_state,form& f, const integer& D, const integer& L, uint64 base, uint64 iterations, INUDUPLListener *nuduplListener) {
+
+    checkInstructions();
     
     if (enable_threads) {
         return repeated_square_fast_multithread(square_state, f, D, L, base, iterations, nuduplListener);

@@ -20,15 +20,32 @@ const int gcd_table_num_exponent_bits=3;
 const int gcd_table_num_fraction_bits=7;
 const int gcd_base_max_iter=5;
 
-#if ENABLE_ALL_INSTRUCTIONS==1
-    const bool use_divide_table=true;
-    const int gcd_base_bits=63;
-    const int gcd_128_max_iter=2;
-#else
-    const bool use_divide_table=false;
-    const int gcd_base_bits=50;
-    const int gcd_128_max_iter=3;
+// ENABLE_ALL_INSTRUCTIONS==0
+bool use_divide_table=false;
+int gcd_base_bits=50;
+int gcd_128_max_iter=3;
+bool enable_all_instructions=false;
+//if the asm code doesn't use fma, the c code shouldn't either to be the same as the asm code
+bool enable_fma_in_c_code=false;
+bool bChecked=false;
+
+void checkInstructions()
+{
+  if(bChecked)
+    return;
+
+  bChecked=true;
+#if defined(__x86_64__)
+  if(__builtin_cpu_supports("avx2"))
+  {
+//#if ENABLE_ALL_INSTRUCTIONS==1
+    use_divide_table=true;
+    gcd_base_bits=63;
+    gcd_128_max_iter=2;
+    enable_fma_in_c_code=enable_all_instructions=true;
+  }
 #endif
+}
 
 /*
 divide_table_index bits
@@ -190,10 +207,8 @@ const int max_bits_base=1024; //half the discriminant number of bits, rounded up
 const int reduce_max_iterations=10000;
 
 const int num_asm_tracking_data=128;
-bool enable_all_instructions=ENABLE_ALL_INSTRUCTIONS;
 
 //if the asm code doesn't use fma, the c code shouldn't either to be the same as the asm code
-const bool enable_fma_in_c_code=ENABLE_ALL_INSTRUCTIONS;
 
 const int track_cycles_num_buckets=24; //each bucket is from 2^i to 2^(i+1) cycles
 const int track_cycles_max_num=128;

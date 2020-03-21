@@ -5,6 +5,7 @@
 #include "nucomp.h"
 #include "proof_common.h"
 #include "create_discriminant.h"
+#include "parameters.h"
 
 void VerifyWesolowskiProof(integer &D, form x, form y, form proof, int iters, bool &is_valid)
 {
@@ -181,6 +182,8 @@ struct ProofOfTimeType
 // Converts from ProofOfTimeType to CheckProofOfTimeNWesolowski-like arguments and calls the check.
 bool CheckProofOfTimeType(ProofOfTimeType &proof)
 {
+    checkInstructions();
+
     bool result;
     integer discriminant = CreateDiscriminant(proof.challenge_hash, proof.discriminant_size_bits);
 
